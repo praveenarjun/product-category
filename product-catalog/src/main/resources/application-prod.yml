@@ -1,0 +1,63 @@
+# ══════════════════════════════════════════
+# src/main/resources/application-prod.yml
+# ══════════════════════════════════════════
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    # NEON POSTGRESQL (Using hardcoded credentials as requested)
+    url: jdbc:postgresql://ep-odd-darkness-aiez1tn8-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require
+    username: neondb_owner
+    password: npg_ktofF0HAVgO9
+    hikari:
+      maximum-pool-size: 3
+      minimum-idle: 1
+      connection-timeout: 30000
+      idle-timeout: 300000
+
+  data:
+    redis:
+      # UPSTASH REDIS (Using hardcoded credentials as requested)
+      host: alert-civet-25945.upstash.io
+      port: 6379
+      password: AWVZAAIncDEyNzlhMjRmZjc4ZWY0OWUxOGExZDIzZTliY2U3MzZlYXAxMjU5NDU
+      ssl:
+        enabled: true
+
+  flyway:
+    # Enabled only if you add the flyway-core dependency, otherwise set false
+    enabled: false
+    baseline-on-migrate: true
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 900000
+
+server:
+  # Render sets PORT env variable, defaulting to 8080 if not present
+  port: ${PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.example.productcatalog: INFO
+    root: WARN
