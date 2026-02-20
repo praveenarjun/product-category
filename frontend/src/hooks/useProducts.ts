@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { productApi, categoryApi } from '../services/api';
-import { type ProductFilterParams, type Product, ProductStatus } from '../types';
+import { type ProductFilterParams, type Product, type ProductStatus } from '../types';
 import toast from 'react-hot-toast';
 
 export const useProducts = (params: ProductFilterParams) => {

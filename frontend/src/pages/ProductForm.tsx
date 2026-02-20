@@ -3,28 +3,24 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Save, Package, DollarSign, Tag, FileText } from 'lucide-react';
+import { ArrowLeft, Save, Package, DollarSign, FileText } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { Input } from '../components/common/Input';
-import { Select } from '../components/common/Select';
 import { useProduct, useCreateProduct, useUpdateProduct, useCategories } from '../hooks/useProducts';
 import { Link } from 'react-router-dom';
-import { ProductStatus, type ApiResponse, type Category, type Product } from '../types';
+import { type ProductStatus, type ApiResponse, type Category, type Product } from '../types';
 
 const productSchema = z.object({
     name: z.string().min(1, 'Name is required'),
     sku: z.string().regex(/^[A-Z]{2,4}-[A-Z]{2,4}-[A-Z0-9]{2,5}$/, 'Invalid SKU format (e.g., ELEC-PHN-IP15)'),
     description: z.string().optional(),
     shortDescription: z.string().optional(),
-    price: z.number({ invalid_type_error: 'Price is required' }).min(0.01, 'Price must be greater than 0'),
-    quantity: z.number({ invalid_type_error: 'Quantity is required' }).int().min(0, 'Quantity cannot be negative'),
-    categoryId: z.number({
-        required_error: 'Please select a category',
-        invalid_type_error: 'Please select a category',
-    }).min(1, 'Please select a category'),
+    price: z.number({ error: 'Price is required' }).min(0.01, 'Price must be greater than 0'),
+    quantity: z.number({ error: 'Quantity is required' }).int().min(0, 'Quantity cannot be negative'),
+    categoryId: z.number({ error: 'Please select a category' }).min(1, 'Please select a category'),
     status: z.string().min(1, 'Status is required'),
     brand: z.string().optional(),
-    featured: z.boolean().default(false),
+    featured: z.boolean(),
 });
 
 type ProductFormData = z.infer<typeof productSchema>;
