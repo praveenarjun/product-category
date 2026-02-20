@@ -1,0 +1,21 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  # Use a fast in-memory cache for tests — no Redis required
+  cache:
+    type: simple
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+  flyway:
+    enabled: false
+
+logging:
+  level:
+    root: WARN
+    com.example.productcatalog: INFO

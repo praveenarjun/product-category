@@ -40,15 +40,13 @@ jobs:
           cache: maven
 
       - name: Run Tests
-        run: mvn clean verify -B
+        run: ./mvnw clean verify -B --no-transfer-progress
         working-directory: product-catalog
         env:
           SPRING_PROFILES_ACTIVE: test
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/product_catalog_test
           SPRING_DATASOURCE_USERNAME: test
           SPRING_DATASOURCE_PASSWORD: test
-          SPRING_DATA_REDIS_HOST: localhost
-          SPRING_DATA_REDIS_PORT: 6379
 
   build-and-push:
     name: 🐳 Build & Push Docker Image
