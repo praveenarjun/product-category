@@ -14,7 +14,7 @@ public class CorsConfig {
 
     // Default origins for local dev + prod; override via app.cors.allowed-origins
     // env var
-    @Value("${app.cors.allowed-origins:http://localhost:5173,http://localhost:3000,https://product-catalog-ui.pages.dev,https://catalog.praveen-challa.tech}")
+    @Value("${app.cors.allowed-origins:https://product-catalog-ui.pages.dev,https://catalog.praveen-challa.tech}")
     private List<String> allowedOrigins;
 
     @Bean
