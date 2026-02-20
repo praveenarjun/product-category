@@ -10,8 +10,8 @@ spring:
     hikari:
       schema: public
       connection-timeout: 20000
-      username: postgres
-      password: password
+      # ❌ REMOVED username and password from here
+      # They were overriding prod environment variables
 
   jpa:
     database: postgresql
