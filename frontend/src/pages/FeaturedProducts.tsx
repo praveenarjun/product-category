@@ -27,7 +27,7 @@ const textGradients = [
 export const FeaturedProducts = () => {
     const { data: response, isLoading } = useFeaturedProducts();
     // Featured products API returns paginated response: { content: [...], totalElements, ... }
-    const products: Product[] = (response?.data as any)?.content ?? response?.data ?? [];
+    const products: Product[] = response?.data?.content ?? [];
 
     return (
         <div className="space-y-6 animate-slide-up">

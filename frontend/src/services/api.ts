@@ -49,12 +49,12 @@ export const productApi = {
     },
 
     getFeaturedProducts: async () => {
-        const response = await api.get<ApiResponse<Product[]>>('/products/featured');
+        const response = await api.get<ApiResponse<PaginatedResponse<Product>>>('/products/featured');
         return response.data;
     },
 
     getLowStockProducts: async () => {
-        const response = await api.get<ApiResponse<Product[]>>('/products/low-stock');
+        const response = await api.get<ApiResponse<PaginatedResponse<Product>>>('/products/low-stock');
         return response.data;
     },
 };
