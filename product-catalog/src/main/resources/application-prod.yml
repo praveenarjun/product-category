@@ -1,5 +1,3 @@
-# src/main/resources/application-prod.yml
-
 spring:
   config:
     activate:
@@ -25,7 +23,7 @@ spring:
         enabled: ${SPRING_DATA_REDIS_SSL_ENABLED:true}
 
   flyway:
-    enabled: false
+    enabled: true              # ← CHANGED to true
     baseline-on-migrate: true
 
   jpa:
@@ -35,7 +33,6 @@ spring:
     properties:
       hibernate:
         format_sql: false
-        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   cache:
     type: redis
