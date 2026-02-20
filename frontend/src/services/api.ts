@@ -1,10 +1,16 @@
 import axios from 'axios';
 import { type Product, type ApiResponse, type ProductFilterParams, type PaginatedResponse, ProductStatus, type DashboardStats, type Category } from '../types';
 
-const API_URL = import.meta.env.VITE_API_URL || '/api/v1';
+// Vite embeds VITE_* vars at BUILD TIME — must be set in Cloudflare Pages env vars
+// VITE_API_URL should be the bare host: https://api.praveen-challa.tech
+// (do NOT include /api/v1 in the env var — it is appended here)
+const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080';
+
+// Debug: always log where API calls are going (visible in browser DevTools > Console)
+console.log('[API] Requests will go to:', `${API_BASE_URL}/api/v1`);
 
 const api = axios.create({
-    baseURL: API_URL,
+    baseURL: `${API_BASE_URL}/api/v1`,
     headers: {
         'Content-Type': 'application/json',
     },
