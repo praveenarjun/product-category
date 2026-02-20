@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -33,7 +34,11 @@ public class ProductDTO implements Serializable {
     private String categoryName;
     private boolean featured;
     private Set<String> tags;
-    private Set<String> images;
+    // Renamed from 'images' to 'imageUrls' to match frontend type
+    private List<String> imageUrls;
+    // Computed fields: derived from quantity and lowStockThreshold
+    private boolean inStock;
+    private boolean lowStock;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

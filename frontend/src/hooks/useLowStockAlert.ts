@@ -19,8 +19,8 @@ export const useLowStockAlert = (): number => {
     });
 
     const count: number =
-        (response?.data as any)?.totalElements ??
-        (response?.data as any)?.content?.length ??
+        response?.data?.totalElements ??
+        response?.data?.content?.length ??
         0;
 
     useEffect(() => {

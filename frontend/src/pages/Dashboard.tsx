@@ -49,7 +49,7 @@ export const Dashboard = () => {
     const allProducts = productsData?.data?.content || [];
     const totalProducts = productsData?.data?.totalElements || 0;
     const activeProducts = allProducts.filter(p => p.status === ProductStatus.ACTIVE).length;
-    const lowStockCount = (lowStockData?.data as any)?.totalElements ?? (lowStockData?.data as any)?.content?.length ?? 0;
+    const lowStockCount = lowStockData?.data?.totalElements ?? lowStockData?.data?.content?.length ?? 0;
     const totalCategories = Array.isArray(categoriesData?.data) ? (categoriesData?.data as any[]).length : 0;
 
     const statusCounts = [

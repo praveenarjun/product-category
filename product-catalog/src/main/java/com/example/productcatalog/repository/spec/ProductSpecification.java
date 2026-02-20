@@ -26,8 +26,13 @@ public class ProductSpecification {
 
             if (StringUtils.hasText(search)) {
                 String searchLike = "%" + search.toLowerCase() + "%";
-                Predicate nameLike = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), searchLike);
-                Predicate descLike = criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), searchLike);
+                Predicate nameLike = criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("name")), searchLike);
+                // COALESCE prevents NPE when description is NULL in the database
+                Predicate descLike = criteriaBuilder.like(
+                        criteriaBuilder.lower(
+                                criteriaBuilder.coalesce(root.get("description"), "")),
+                        searchLike);
                 predicates.add(criteriaBuilder.or(nameLike, descLike));
             }
 

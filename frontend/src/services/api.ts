@@ -49,12 +49,14 @@ export const productApi = {
     },
 
     getFeaturedProducts: async () => {
-        const response = await api.get<ApiResponse<Product[]>>('/products/featured');
+        // Backend returns paginated response: Page<ProductDTO>
+        const response = await api.get<ApiResponse<PaginatedResponse<Product>>>('/products/featured');
         return response.data;
     },
 
     getLowStockProducts: async () => {
-        const response = await api.get<ApiResponse<Product[]>>('/products/low-stock');
+        // Backend returns paginated response: Page<ProductDTO>
+        const response = await api.get<ApiResponse<PaginatedResponse<Product>>>('/products/low-stock');
         return response.data;
     },
 };

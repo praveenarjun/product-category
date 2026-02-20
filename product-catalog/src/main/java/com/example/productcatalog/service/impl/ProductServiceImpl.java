@@ -114,7 +114,10 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
 
-        product.setStatus("ARCHIVED"); // or "DELETED"
+        // Soft-delete: set status to ARCHIVED so it is excluded from all filter
+        // queries.
+        // ProductSpecification already filters out ARCHIVED and DELETED products.
+        product.setStatus("ARCHIVED");
         productRepository.save(product);
     }
 

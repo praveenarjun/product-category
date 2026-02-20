@@ -36,8 +36,8 @@ export const LowStock = () => {
     const [restockProduct, setRestockProduct] = useState<Product | null>(null);
     const [newQuantity, setNewQuantity] = useState('');
 
-    // Low-stock API returns paginated response: { content: [...], totalElements, ... }
-    const products: Product[] = (response?.data as any)?.content ?? (response?.data as any) ?? [];
+    // getLowStockProducts returns paginated response: { content: [...], totalElements, ... }
+    const products: Product[] = response?.data?.content ?? [];
     const outOfStock = products.filter(p => p.quantity === 0);
     const criticallyLow = products.filter(p => p.quantity > 0 && p.quantity < 5);
 

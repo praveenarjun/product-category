@@ -1,18 +1,19 @@
 package com.example.productcatalog.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.beans.factory.annotation.Value;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
 public class CorsConfig {
 
+    // Default origins for local dev + prod; override via app.cors.allowed-origins
+    // env var
     @Value("${app.cors.allowed-origins:http://localhost:5173,http://localhost:3000,https://product-catalog-ui.pages.dev}")
     private List<String> allowedOrigins;
 
@@ -20,8 +21,9 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Use configured allowed origins or default to known frontends
-        config.setAllowedOriginPatterns(allowedOrigins.isEmpty() ? List.of("*") : allowedOrigins);
+        // SECURITY FIX: Never fall back to wildcard (*). Use explicit list only.
+        // If allowedOrigins is somehow empty, the filter allows nothing (safe default).
+        config.setAllowedOriginPatterns(allowedOrigins);
 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
