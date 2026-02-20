@@ -31,9 +31,11 @@ public class ProductDTO implements Serializable {
     private Double weightGrams;
     private Long categoryId;
     private String categoryName;
+    private boolean inStock;
+    private boolean lowStock;
     private boolean featured;
     private Set<String> tags;
-    private Set<String> images;
+    private Set<String> imageUrls;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

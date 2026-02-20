@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { type Product, type ApiResponse, type ProductFilterParams, type PaginatedResponse, ProductStatus, type DashboardStats, type Category } from '../types';
+import { type Product, type ApiResponse, type ProductFilterParams, type PaginatedResponse, type ProductStatus, type DashboardStats, type Category } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api/v1';
 
@@ -49,12 +49,12 @@ export const productApi = {
     },
 
     getFeaturedProducts: async () => {
-        const response = await api.get<ApiResponse<Product[]>>('/products/featured');
+        const response = await api.get<ApiResponse<PaginatedResponse<Product>>>('/products/featured');
         return response.data;
     },
 
     getLowStockProducts: async () => {
-        const response = await api.get<ApiResponse<Product[]>>('/products/low-stock');
+        const response = await api.get<ApiResponse<PaginatedResponse<Product>>>('/products/low-stock');
         return response.data;
     },
 };

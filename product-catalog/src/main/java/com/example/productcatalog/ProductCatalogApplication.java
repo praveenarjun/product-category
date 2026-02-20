@@ -14,12 +14,4 @@ public class ProductCatalogApplication {
 		SpringApplication.run(ProductCatalogApplication.class, args);
 	}
 
-	@org.springframework.context.annotation.Bean
-	public org.springframework.boot.CommandLineRunner commandLineRunner(javax.sql.DataSource dataSource) {
-		return args -> {
-			System.out.println("DATASOURCE URL: " + dataSource.getConnection().getMetaData().getURL());
-			System.out.println("DATASOURCE USER: " + dataSource.getConnection().getMetaData().getUserName());
-		};
-	}
-
 }

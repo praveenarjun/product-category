@@ -28,12 +28,13 @@ export interface Category {
     description?: string;
 }
 
-export enum ProductStatus {
-    DRAFT = 'DRAFT',
-    ACTIVE = 'ACTIVE',
-    INACTIVE = 'INACTIVE',
-    ARCHIVED = 'ARCHIVED'
-}
+export const ProductStatus = {
+    DRAFT: 'DRAFT',
+    ACTIVE: 'ACTIVE',
+    INACTIVE: 'INACTIVE',
+    ARCHIVED: 'ARCHIVED',
+} as const;
+export type ProductStatus = typeof ProductStatus[keyof typeof ProductStatus];
 
 export interface ApiResponse<T> {
     success: boolean;

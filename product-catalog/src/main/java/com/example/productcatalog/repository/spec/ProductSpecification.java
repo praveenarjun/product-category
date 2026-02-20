@@ -27,7 +27,9 @@ public class ProductSpecification {
             if (StringUtils.hasText(search)) {
                 String searchLike = "%" + search.toLowerCase() + "%";
                 Predicate nameLike = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), searchLike);
-                Predicate descLike = criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), searchLike);
+                jakarta.persistence.criteria.Expression<String> descExpr =
+                        criteriaBuilder.coalesce(root.<String>get("description"), "");
+                Predicate descLike = criteriaBuilder.like(criteriaBuilder.lower(descExpr), searchLike);
                 predicates.add(criteriaBuilder.or(nameLike, descLike));
             }
 

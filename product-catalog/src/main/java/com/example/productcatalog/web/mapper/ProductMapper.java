@@ -15,6 +15,9 @@ public interface ProductMapper {
 
     @Mapping(target = "categoryId", source = "category.id")
     @Mapping(target = "categoryName", source = "category.name")
+    @Mapping(target = "imageUrls", source = "images")
+    @Mapping(target = "inStock", expression = "java(product.getQuantity() != null && product.getQuantity() > 0)")
+    @Mapping(target = "lowStock", expression = "java(product.getQuantity() != null && product.getLowStockThreshold() != null && product.getQuantity() <= product.getLowStockThreshold())")
     ProductDTO toDTO(Product product);
 
     @Mapping(target = "id", ignore = true)
