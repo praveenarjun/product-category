@@ -7,10 +7,11 @@ spring:
       on-profile: prod
 
   datasource:
-    # NEON POSTGRESQL (Using hardcoded credentials as requested)
-    url: jdbc:postgresql://ep-odd-darkness-aiez1tn8-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require
-    username: neondb_owner
-    password: npg_ktofF0HAVgO9
+    # NEON POSTGRESQL (Using Environment Variables)
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 3
       minimum-idle: 1
@@ -19,12 +20,12 @@ spring:
 
   data:
     redis:
-      # UPSTASH REDIS (Using hardcoded credentials as requested)
-      host: alert-civet-25945.upstash.io
-      port: 6379
-      password: AWVZAAIncDEyNzlhMjRmZjc4ZWY0OWUxOGExZDIzZTliY2U3MzZlYXAxMjU5NDU
+      # UPSTASH REDIS (Using Environment Variables)
+      host: ${SPRING_DATA_REDIS_HOST}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+      password: ${SPRING_DATA_REDIS_PASSWORD}
       ssl:
-        enabled: true
+        enabled: ${SPRING_DATA_REDIS_SSL_ENABLED:true}
 
   flyway:
     # Enabled only if you add the flyway-core dependency, otherwise set false
@@ -37,6 +38,7 @@ spring:
     show-sql: false
     properties:
       hibernate:
+        format_sql: false
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   cache:
