@@ -14,8 +14,8 @@ docker-compose up --build -d
 
 | Service | URL | Description |
 |---|---|---|
-| **Frontend** | [http://localhost](http://localhost) | React Admin Dashboard |
-| **Backend API** | [http://localhost/api/v1](http://localhost/api/v1) | Spring Boot REST API |
+| **Frontend** | [https://catalog.praveen-challa.tech](https://catalog.praveen-challa.tech) | React Admin Dashboard |
+| **Backend API** | [https://api.praveen-challa.tech/swagger-ui/index.html](https://api.praveen-challa.tech/swagger-ui/index.html) | Spring Boot REST API |
 | **Database** | `localhost:5433` | PostgreSQL (User: `postgres`, Pass: `password`) |
 | **Cache** | `localhost:6379` | Redis |
 
