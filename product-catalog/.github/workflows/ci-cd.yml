@@ -29,6 +29,17 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      # ✅ ADD THIS - Redis service for tests
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v4
 
@@ -94,11 +105,28 @@ jobs:
 
     steps:
       - name: Trigger Render Deploy
-        if: "${{ secrets.RENDER_DEPLOY_HOOK_URL != '' }}"
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
-        
-      - name: Health Check
-        if: "${{ secrets.RENDER_DEPLOY_HOOK_URL != '' }}"
         run: |
-          echo "Waiting for deployment to stabilize..."
-          sleep 60
+          if [ -n "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" ]; then
+            curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+            echo "✅ Deploy triggered on Render"
+          else
+            echo "⚠️ No deploy hook URL set, skipping deploy"
+          fi
+
+      # ✅ IMPROVED - Actually checks health endpoint
+      - name: Health Check
+        run: |
+          echo "⏳ Waiting 90 seconds for deployment..."
+          sleep 90
+          echo "🔍 Checking health..."
+          for i in 1 2 3 4 5; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://api.praveen-challa.tech/actuator/health || true)
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ Health check passed!"
+              exit 0
+            fi
+            echo "Attempt $i: Status $STATUS - Retrying in 30s..."
+            sleep 30
+          done
+          echo "❌ Health check failed after 5 attempts"
+          exit 1
