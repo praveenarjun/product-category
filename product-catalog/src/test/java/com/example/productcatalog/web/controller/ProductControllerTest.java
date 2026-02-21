@@ -7,10 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -23,6 +25,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProductController.class)
+@TestPropertySource(properties = {
+        "spring.flyway.enabled=false",
+        "spring.cache.type=none",
+        "spring.data.redis.repositories.enabled=false"
+})
 class ProductControllerTest {
 
     @Autowired
@@ -30,6 +37,11 @@ class ProductControllerTest {
 
     @MockBean
     private ProductService productService;
+
+    // Mock CacheManager to satisfy @EnableCaching on the main class
+    // without needing a real Redis or cache infrastructure in the web slice
+    @MockBean
+    private CacheManager cacheManager;
 
     private ProductDTO productDTO;
 
