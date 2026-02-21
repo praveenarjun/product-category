@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -25,6 +26,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProductController.class)
+// Explicitly activate "test" profile so application-test.yml is loaded.
+// This makes spring.cache.type=none take effect inside the WebMvc test slice,
+// preventing CacheAutoConfiguration from trying to connect to Redis.
+@ActiveProfiles("test")
 @TestPropertySource(properties = {
         "spring.flyway.enabled=false",
         "spring.cache.type=none",
@@ -38,8 +43,7 @@ class ProductControllerTest {
     @MockBean
     private ProductService productService;
 
-    // Mock CacheManager to satisfy @EnableCaching on the main class
-    // without needing a real Redis or cache infrastructure in the web slice
+    // Satisfy @EnableCaching on the main class inside the WebMvc slice context
     @MockBean
     private CacheManager cacheManager;
 
