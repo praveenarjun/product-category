@@ -1,0 +1,36 @@
+spring:
+  # PostgreSQL - connects to CI service (user: test, db: product_catalog_test)
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/product_catalog_test}
+    username: ${SPRING_DATASOURCE_USERNAME:test}
+    password: ${SPRING_DATASOURCE_PASSWORD:test}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop   # auto-create schema for tests, drop on exit
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  # Flyway - disabled in tests (schema created by Hibernate above)
+  flyway:
+    enabled: false
+
+  # Redis - connects to CI service
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+      timeout: 2000ms
+
+  # Use simple in-memory cache instead of Redis in tests to avoid connection issues
+  cache:
+    type: none
+
+# Logging - quiet during tests
+logging:
+  level:
+    root: WARN
+    com.example.productcatalog: INFO
+    org.springframework.cache: WARN
+    org.springframework.data.redis: WARN
